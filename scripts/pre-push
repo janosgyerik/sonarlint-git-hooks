@@ -18,8 +18,10 @@ if ! which sonarlint &>/dev/null; then
     fatal "cannot find sonarlint. Did you add to PATH?"
 fi
 
+against=origin/master...
+
 failures=
-files=($(git diff --name-only origin/master...))
+files=($(git diff --name-only $against))
 for file in "${files[@]}"; do
     if [[ $file == *src/main/java* ]]; then
         echo Analyzing file: $file ...
