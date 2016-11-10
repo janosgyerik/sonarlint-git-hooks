@@ -17,7 +17,7 @@ Download and install it, and put `sonarlint` somewhere on `PATH`.
 Scripts
 -------
 
-- `scripts/pre-push`: run analysis before `git push`, for each changed file compared to `origin/master`. To temporarily disable the hook, run with `SKIPSONARLINT=1 git push`.
+- `scripts/pre-push`: run analysis before `git push`, for each changed file compared to `origin/master`. Currently only files matching the pattern `src/main/java` are analyzed, others are skipped with a warning. To temporarily disable the hook, run with `SKIPSONARLINT=1 git push`.
 
 Installing
 ----------
@@ -27,4 +27,9 @@ To install a script, simply copy it to the `.git/hooks` directory of the project
 Limitations
 -----------
 
+In addition to the limitations explained with each script,
+there are currently some "global" limitations.
+
 - The `sonarlint` tool requires a GLOB to select source files. To avoid analyzing more files than necessary, the scripts run one analysis per file, which is very slow.
+
+- The `sonarlint` tool cannot analyze test files alone. When a test file is specified but no source files, the tool assumes the entire project as source files.
