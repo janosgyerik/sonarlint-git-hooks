@@ -28,8 +28,8 @@ Limitations
 -----------
 
 In addition to the limitations explained with each script,
-there are currently some "global" limitations.
+there are some common global limitations.
 
-- The `sonarlint` tool requires a GLOB to select source files. To avoid analyzing more files than necessary, the scripts run one analysis per file, which is very slow.
+- The `sonarlint` tool requires a GLOB to select source files. To avoid analyzing more files than necessary, the scripts run one analysis per file. If there is more than one file to analyze, this quickly becomes very slow.
 
-- The `sonarlint` tool cannot analyze test files alone. When a test file is specified but no source files, the tool assumes the entire project as source files.
+- The `sonarlint` tool cannot analyze test files alone. When a test file is specified but no source files, the tool assumes the entire project as source files. That's not so good for hooks, so they try to omit test files.
