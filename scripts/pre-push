@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+fatal() {
+    echo fatal: "$@"
+    exit 1
+}
+
+info() {
+    echo info: "$@"
+}
+
+if [ "$SKIPSONARLINT" ]; then
+    info "SKIPSONARLINT is set, skipping verification..."
+    exit 0
+fi
+
+if ! which sonarlint &>/dev/null; then
+    fatal "cannot find sonarlint. Did you add to PATH?"
+fi
+
+failures=
+files=($(git diff --name-only origin/master...))
+for file in "${files[@]}"; do
+    if [[ $file == *src/main/java* ]]; then
+        echo Analyzing file: $file ...
+        issues=$(sonarlint --src "$file" | sed -ne 's/^ *\([0-9][0-9]* issu[a-z]*\).*/\1/p')
+        if [ "$issues" ]; then
+            echo $issues
+            echo "Run sonarlint --src \"$file\" and see the output for more details."
+            failures=1
+        fi
+    else
+        echo Not analyzing file: $file
+    fi
+    echo
+done
+
+if [ "$failures" ]; then
+    fatal "some analyses have failed -> hook abort"
+fi
