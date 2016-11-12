@@ -25,21 +25,25 @@ failures=
 files=($(git diff --name-only $against --diff-filter=$filter))
 for file in "${files[@]}"; do
     if ! [ -f "$file" ]; then
-        echo Not analyzing deleted file: $file
+        echo "skip deleted file: $file"
         continue
     fi
-    if [[ $file == *src/main/java* ]]; then
-        echo Analyzing file: $file ...
+    if [[ $file == *src/test/* ]]; then
+        echo "skip test file: $file"
+        continue
+    fi
+    if [[ $file == *src/* ]]; then
+        echo "analyzing: $file ..."
         issues=$(sonarlint --src "$file" | sed -ne 's/^ *\([0-9][0-9]* issu[a-z]*\).*/\1/p')
         if [ "$issues" ]; then
             echo $issues
-            echo "Run sonarlint --src \"$file\" and see the output for more details."
+            echo "(for more details, run: sonarlint --src \"$file\")"
             failures=1
+            echo
         fi
     else
-        echo Not analyzing file: $file
+        echo "skip unknown file: $file"
     fi
-    echo
 done
 
 if [ "$failures" ]; then

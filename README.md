@@ -17,7 +17,7 @@ Download and install it, and put `sonarlint` somewhere on `PATH`.
 Scripts
 -------
 
-- `scripts/pre-push`: run analysis before `git push`, for each changed file compared to `origin/master`. Currently only files matching the pattern `src/main/java` are analyzed, others are skipped with a warning. To temporarily disable the hook, run with `SKIPSONARLINT=1 git push`.
+- `hooks/pre-push`: run analysis before `git push`, for each changed file compared to `origin/master`. Currently only files matching the pattern `src/main/java` are analyzed, others are skipped with a warning. To temporarily disable the hook, run with `SKIPSONARLINT=1 git push`.
 
 Installing
 ----------
