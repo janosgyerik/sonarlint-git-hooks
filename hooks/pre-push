@@ -60,7 +60,7 @@ print_files() {
 print_files "source files to analyze:" "${sources[@]}"
 print_files "test files to analyze:" "${tests[@]}"
 info "analyzing..."
-issues=$(sonarlint "${args[@]}" | sed -ne '/SonarLint Report/,/^---/p')
+issues=$(sonarlint "${args[@]}" | sed -ne '/SonarLint Report/,/^---/p' -e '/Report generated/p')
 echo "$issues"
 
 if ! [[ $issues == *"No issues to display"* ]]; then
