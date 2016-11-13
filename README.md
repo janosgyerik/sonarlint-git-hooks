@@ -42,13 +42,17 @@ If it isn't, then add this line in your `~/.bashrc` file:
 Installing
 ----------
 
-To install a hook script, simply copy it to the `.git/hooks` directory of the project where you want to activate it. Make sure it has the executable bit set.
+To install the hook scripts, you can use the `install.sh` script:
 
-Alternatively,
-for easier upgrades,
-you can symlink to the hook script:
+    cd your/git/project
+    /path/to/sonarlint-git-hooks/install.sh
 
-    ln -s absolute/path/to/hook/script path/to/your/repo/.git/hooks
+The script will create symbolic links to the hook scripts in the `hooks/` directory.
+It will not overwrite existing files.
+To disable a hook script, you can either rename it or delete it.
+
+If symbolic links don't work well in your system,
+you can copy the hook scripts manually.
 
 Hooks
 -----
