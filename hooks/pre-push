@@ -23,29 +23,38 @@ filter=AM  # see --diff-filter in git diff --help
 
 failures=
 files=($(git diff --name-only $against --diff-filter=$filter))
+args=()
+sources=()
+tests=()
 for file in "${files[@]}"; do
     if ! [ -f "$file" ]; then
         echo "skip deleted file: $file"
         continue
     fi
-    if [[ $file == *src/test/* ]]; then
-        echo "skip test file: $file"
+    if [[ $file == *src/* ]]; then
+        if [[ $file == *src/test/* ]]; then
+            tests+=("$file")
+            args+=(--tests "$file")
+        else
+            sources+=("$file")
+        fi
+        args+=(--src "$file")
         continue
     fi
-    if [[ $file == *src/* ]]; then
-        echo "analyzing: $file ..."
-        issues=$(sonarlint --src "$file" | sed -ne 's/^ *\([0-9][0-9]* issu[a-z]*\).*/\1/p')
-        if [ "$issues" ]; then
-            echo $issues
-            echo "(for more details, run: sonarlint --src \"$file\")"
-            failures=1
-            echo
-        fi
-    else
-        echo "skip unknown file: $file"
-    fi
+    echo "skip unknown file: $file"
 done
 
-if [ "$failures" ]; then
-    fatal "some analyses have failed -> hook abort"
+if [ ${#sources} = 0 -a ${#tests} = 0 ]; then
+    info no files to analyze
+    exit
+fi
+
+info "sources: ${sources[@]}"
+info "tests: ${tests[@]}"
+info "analyzing..."
+issues=$(sonarlint "${args[@]}" | sed -ne '/SonarLint Report/,/^---/p')
+echo "$issues"
+
+if ! [[ $issues == *"No issues to display"* ]]; then
+    fatal "hook abort: some analyses have failed"
 fi
