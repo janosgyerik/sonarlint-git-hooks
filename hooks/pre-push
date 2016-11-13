@@ -28,7 +28,7 @@ sources=()
 tests=()
 for file in "${files[@]}"; do
     if ! [ -f "$file" ]; then
-        echo "skip deleted file: $file"
+        info "skip deleted file: $file"
         continue
     fi
     if [[ $file == *src/* ]]; then
@@ -41,7 +41,7 @@ for file in "${files[@]}"; do
         args+=(--src "$file")
         continue
     fi
-    echo "skip unknown file: $file"
+    info "skip unknown file: $file"
 done
 
 if [ ${#sources} = 0 -a ${#tests} = 0 ]; then
@@ -49,8 +49,16 @@ if [ ${#sources} = 0 -a ${#tests} = 0 ]; then
     exit
 fi
 
-info "sources: ${sources[@]}"
-info "tests: ${tests[@]}"
+print_files() {
+    [[ $# != 1 ]] || return
+    info $1
+    shift
+    for i; do
+        info "  $i"
+    done
+}
+print_files "source files to analyze:" "${sources[@]}"
+print_files "test files to analyze:" "${tests[@]}"
 info "analyzing..."
 issues=$(sonarlint "${args[@]}" | sed -ne '/SonarLint Report/,/^---/p')
 echo "$issues"
