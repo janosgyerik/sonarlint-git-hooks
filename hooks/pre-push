@@ -26,8 +26,10 @@ if [ "$SKIPSONARLINT" ]; then
     exit 0
 fi
 
-if ! which sonarlint &>/dev/null; then
-    fatal "cannot find sonarlint. Did you add to PATH?"
+if ! type sonarlint &>/dev/null; then
+    echo "fatal: cannot find 'sonarlint' on PATH"
+    echo "See setup steps in https://github.com/janosgyerik/sonarlint-git-hooks"
+    exit 1
 fi
 
 run() {
