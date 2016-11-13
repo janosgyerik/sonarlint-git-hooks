@@ -32,7 +32,7 @@ for file in "${files[@]}"; do
         continue
     fi
     if [[ $file == *src/* ]]; then
-        if [[ $file == *src/test/* ]]; then
+        if [[ $file == *[tT]est* ]]; then
             tests+=("$file")
             args+=(--tests "$file")
         else
