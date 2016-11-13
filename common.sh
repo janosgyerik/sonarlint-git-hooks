@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 ### BEGIN_COMMON
 #!/usr/bin/env bash
 
@@ -69,6 +67,3 @@ run() {
 }
 
 ### END_COMMON
-
-files=($(git diff --name-only --diff-filter=AM origin/master...))
-run "${files[@]}"

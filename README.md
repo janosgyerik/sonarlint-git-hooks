@@ -59,6 +59,7 @@ See the hook scripts inside the `hooks` directory.
     - If the file path contains `src/`, analyze it as source code
     - If the file path contains `src/` and also `test` or `Test`, analyze it as test code
     - Otherwise skip the file and print a warning
+- `pre-commit`: run analysis before `git commit`, on files that were added or modified, after the same filtering applied as in `pre-push`.
 
 You can easily run the hook scripts "standalone",
 without actually running a Git command.
