@@ -12,32 +12,27 @@ http://www.sonarlint.org/commandline/
 
 However, the current official release doesn't support multiple `--src` and `--tests` options,
 which is essential for the hook scripts to work reasonably fast on multiple files.
-The general installation instructions are the same as the official release,
-but use this custom unofficial build instead:
+To work around that limitation, you can use this custom build instead:
 
 https://github.com/janosgyerik/sonarlint-cli/releases/tag/2.1.0-multi-src
 
-Download and install it, for example like this:
+The installation steps are the same as the official version.
+Alternatively, you can run a convenience script included in this repository:
 
-    # create a `tools` sub-directory in your home if doesn't exist and go inside
-    mkdir -p ~/tools
-    cd ~/tools
+    ./get-and-setup-sonarlint.sh
 
-    # download and extract the zip, go inside the extracted directory
-    wget https://github.com/janosgyerik/sonarlint-cli/releases/download/2.1.0-multi-src/sonarlint-cli-2.1.0-multi-src.zip
-    unzip sonarlint-cli-2.1.0-multi-src.zip
-    cd sonarlint-cli-2.1.0-multi-src
+This will do:
 
-    # create `bin` directory in your `$HOME` if doesn't exist
-    mkdir -p ~/bin
+1. Download the custom build and extract inside the repository
+2. Create a symbolic link to `sonarlint` in your `~/bin`
+3. Verify that `sonarlint` is ready to run
 
-    # create symbolic link to sonarlint from ~/bin
-    ln -s "$PWD"/bin/sonarlint ~/bin
+This assumes that your `~/bin` folder is on `PATH`.
+If that's not the case, you need to add the following line
+to your `~/.bashrc` or `~/.bash_profile` or `~/.profile`,
+as appropriate for your environment:
 
-This assumes that `~/bin` is on `PATH`, which is usually the case by default.
-If it isn't, then add this line in your `~/.bashrc` file:
-
-    PATH=$PATH:$HOME/bin
+    PATH=$HOME/bin:$PATH
 
 Installing
 ----------
