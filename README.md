@@ -74,7 +74,7 @@ for example:
 
 Tip: here's an example Git alias to `git push` without analysis:
 
-    pushf = "!f() { SKIPSONARLINT=1 git push \"$@\"; }; f \"$@\""
+    pushf = "!f() { SKIPSONARLINT=1 git push \"$@\"; }; f"
 
 To permanently disable the hook, you can simply rename the script file.
 
