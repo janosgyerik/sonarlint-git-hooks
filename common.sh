@@ -54,7 +54,7 @@ run() {
 
     if [ ${#sources} = 0 -a ${#tests} = 0 ]; then
         info no files to analyze
-        exit
+        return
     fi
 
     print_files "source files to analyze:" "${sources[@]}"
