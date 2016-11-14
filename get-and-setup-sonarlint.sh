@@ -24,7 +24,7 @@ mkdir -p ~/bin
 test -f ~/bin/sonarlint || ln -s "$PWD"/bin/sonarlint ~/bin
 
 info "checking sonarlint executability"
-if ! type onarlint &>/dev/null; then
+if ! type sonarlint &>/dev/null; then
     cat << "EOF" >&2
 
 *******************************************************************************
