@@ -21,7 +21,7 @@ cd $dirname
 
 info "creating symbolic link to sonarlint from ~/bin/sonarlint ..."
 mkdir -p ~/bin
-test -f ~/bin/sonarlint || ln -sf "$PWD"/bin/sonarlint ~/bin
+ln -sf "$PWD"/bin/sonarlint ~/bin/
 
 info "checking sonarlint executability"
 if ! type sonarlint &>/dev/null; then
