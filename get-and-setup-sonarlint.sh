@@ -12,7 +12,7 @@ info "downloading sonarlint into $PWD/work ..."
 mkdir -p work
 cd work
 
-release=2.1.0-multi-src
+release=2.1.1
 dirname=sonarlint-cli-$release
 wget -c -O $dirname.zip https://github.com/janosgyerik/sonarlint-cli/releases/download/$release/$dirname.zip
 rm -fr $dirname
