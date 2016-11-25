@@ -72,5 +72,5 @@ run() {
 
 ### END_COMMON
 
-files=($(git diff --name-only --diff-filter=AM origin/master...))
+files=($(git diff --name-only --diff-filter=AMR origin/master...))
 run "${files[@]}"

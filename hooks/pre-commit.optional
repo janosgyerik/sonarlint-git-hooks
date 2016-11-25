@@ -72,7 +72,7 @@ run() {
 
 ### END_COMMON
 
-files=($(git diff --name-only --diff-filter=AM --cached HEAD))
+files=($(git diff --name-only --diff-filter=AMR --cached HEAD))
 run "${files[@]}"
 
 if ! git diff --check --cached; then
