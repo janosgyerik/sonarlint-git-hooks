@@ -57,7 +57,7 @@ run() {
 
     if [ ${#sources} = 0 -a ${#tests} = 0 ]; then
         info no files to analyze
-        return
+        return 2
     fi
 
     args=(--src "{${sources_globs:1}}")
@@ -77,13 +77,12 @@ run() {
 ### END_COMMON
 
 files=($(git diff --name-only --diff-filter=AMR --cached HEAD))
-run "${files[@]}"
+if run "${files[@]}"; then
+    if ! git diff --check --cached; then
+        fatal 'hook abort: `git diff --check` reports issues'
+    fi
 
-if ! git diff --check --cached; then
-    fatal 'hook abort: `git diff --check` reports issues'
-fi
-
-cat << "EOF"
+    cat << "EOF"
   _______     ______      ______    ________            ___    ______    _______
  /" _   "|   /    " \    /    " \  |"      "\          |"  |  /    " \  |   _  "\
 (: ( \___)  // ____  \  // ____  \ (.  ___  :)         ||  | // ____  \ (. |_)  :)
@@ -93,3 +92,4 @@ cat << "EOF"
  \_______)  \"_____/    \"_____/   (________/     (_______/  \"_____/   (_______/
 
 EOF
+fi
