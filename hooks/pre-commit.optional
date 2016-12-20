@@ -33,9 +33,10 @@ if ! type sonarlint &>/dev/null; then
 fi
 
 run() {
-    args=()
     sources=()
+    sources_globs=
     tests=()
+    tests_globs=
     for file; do
         if ! [ -f "$file" ]; then
             info "skip deleted file: $file"
@@ -44,11 +45,11 @@ run() {
         if [[ $file == *src/* ]]; then
             if [[ $file == *[tT]est* ]]; then
                 tests+=("$file")
-                args+=(--tests "$file")
+                tests_globs="$tests_globs,$file"
             else
                 sources+=("$file")
             fi
-            args+=(--src "$file")
+            sources_globs="$sources_globs,$file"
             continue
         fi
         info "skip unknown file: $file"
@@ -58,6 +59,9 @@ run() {
         info no files to analyze
         return
     fi
+
+    args=(--src "{${sources_globs:1}}")
+    test "$tests_globs" && args+=(--tests "{${tests_globs:1}}")
 
     print_files "source files to analyze:" "${sources[@]}"
     print_files "test files to analyze:" "${tests[@]}"
