@@ -10,20 +10,13 @@ To run SonarLint analysis, you need the `sonarlint` command line tool.
 
 http://www.sonarlint.org/commandline/
 
-However, the current official release doesn't support multiple `--src` and `--tests` options,
-which is essential for the hook scripts to work reasonably fast on multiple files.
-To work around that limitation, you can use this custom build instead:
-
-https://github.com/janosgyerik/sonarlint-cli/releases/tag/2.1.0-multi-src
-
-The installation steps are the same as the official version.
 Alternatively, you can run a convenience script included in this repository:
 
     ./get-and-setup-sonarlint.sh
 
 This will do:
 
-1. Download the custom build and extract inside the repository
+1. Download the latest release of SonarLint CLI and extract inside this clone
 2. Create a symbolic link to `sonarlint` in your `~/bin`
 3. Verify that `sonarlint` is ready to run
 
