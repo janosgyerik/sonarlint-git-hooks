@@ -4,6 +4,11 @@ info() {
     echo info: "$@"
 }
 
+fatal() {
+    echo fatal: "$@"
+    exit 1
+}
+
 set -e
 
 cd "$(dirname "$0")"
@@ -12,11 +17,15 @@ info "downloading sonarlint into $PWD/work ..."
 mkdir -p work
 cd work
 
-release=2.1.1
+release=2.1.0.566
 dirname=sonarlint-cli-$release
-wget -c -O $dirname.zip https://github.com/janosgyerik/sonarlint-cli/releases/download/$release/$dirname.zip
+archive=$dirname.zip
+wget -c -O $archive https://bintray.com/sonarsource/Distribution/download_file?file_path=sonarlint-cli%2Fsonarlint-cli-$release.zip
 rm -fr $dirname
-unzip $dirname.zip
+unzip $archive || {
+    rm -f $archive
+    fatal 'failed to unzip the file, try to download again'
+}
 cd $dirname
 
 info "creating symbolic link to sonarlint from ~/bin/sonarlint ..."
